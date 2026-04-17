@@ -1,65 +1,147 @@
-import Image from "next/image";
+import { PageHero } from "@/components/layout/page-hero";
+import { Button } from "@/components/ui/button";
+import { HeroCtaButton } from "@/components/ui/hero-cta-button";
+import { SectionContainer } from "@/components/layout/section-container";
+import { ProjectCard } from "@/components/property/project-card";
+import { PropertyCard } from "@/components/property/property-card";
+import { homePageContent, homePagePartners, routes } from "@/config/site";
+import {
+  getFeaturedProjects,
+  getFeaturedProperties,
+} from "@/features/properties/catalog";
+import { buildMetadata } from "@/lib/metadata";
 
-export default function Home() {
+export const metadata = buildMetadata({
+  path: routes.home,
+});
+
+export default function HomePage() {
+  const featuredProjects = getFeaturedProjects();
+  const featuredProperties = getFeaturedProperties();
+  const partnerLogos = [...homePagePartners, ...homePagePartners];
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <>
+      {/* Hero with cover image + split info bar */}
+      <PageHero
+        frame="contained"
+        imageSrc="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2000&q=80"
+        imageAlt="Modern luxury residence interior"
+        className="min-h-[85vh]"
+        contentClassName="flex min-h-[85vh] flex-col justify-end pl-12"
+      >
+        <div>
+          <h1 className="max-w-2xl whitespace-pre-line text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+            {homePageContent.hero.title}
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+        </div>
+
+        <div className="mt-16">
+          <div className="grid grid-cols-1 lg:grid-cols-[3fr_3fr]">
+            <div className="flex items-start">
+              <HeroCtaButton href={homePageContent.hero.primaryCta.href}>
+                {homePageContent.hero.primaryCta.label}
+              </HeroCtaButton>
+            </div>
+            <div className="flex items-start bg-white px-12 py-12">
+              <div>
+                <p className="text-[11px] font-semibold tracking-[0.15em] text-muted-foreground uppercase">
+                  Discover
+                </p>
+                <p className="mt-2 text-sm leading-6 text-foreground">
+                  {homePageContent.hero.subtitle}
+                </p>
+              </div>
+              <div className="ml-auto pr-12">
+                <p className="text-[11px] font-semibold tracking-[0.15em] text-muted-foreground uppercase">
+                  Get started
+                </p>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  href={homePageContent.hero.secondaryCta.href}
+                  className="mt-2"
+                >
+                  {homePageContent.hero.secondaryCta.label}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </PageHero>
+
+      {/* Partner strip */}
+      <SectionContainer spacing="flush" className="bg-white" contentClassName="py-6 sm:py-8">
+        <div className="flex flex-col gap-4">
+          <p className="text-[11px] font-semibold tracking-[0.15em] text-muted-foreground uppercase">
+            Partners
           </p>
+
+          <div className="partners-marquee">
+            <div className="partners-track">
+              {partnerLogos.map((partner, index) => (
+                <div
+                  key={`${partner.mark}-${index}`}
+                  className="flex min-w-48 items-center gap-4 bg-white px-5 py-4"
+                  aria-hidden={index >= homePagePartners.length}
+                >
+                  <span className="text-lg font-bold tracking-[-0.03em] text-foreground">
+                    {partner.mark}
+                  </span>
+                  <span className="h-6 w-px" />
+                  <span className="text-[11px] font-semibold tracking-[0.15em] text-muted-foreground uppercase">
+                    {partner.name}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </SectionContainer>
+
+      {/* Featured projects */}
+      <SectionContainer
+        eyebrow={homePageContent.featuredProjects.eyebrow}
+        title={homePageContent.featuredProjects.title}
+        description={homePageContent.featuredProjects.description}
+        spacing="flush"
+        contentClassName="pb-[var(--theme-layout-section-space)]"
+      >
+        <div className="grid gap-6 lg:grid-cols-2">
+          {featuredProjects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
         </div>
-      </main>
-    </div>
+      </SectionContainer>
+
+      {/* Featured properties */}
+      <SectionContainer
+        eyebrow={homePageContent.featuredProperties.eyebrow}
+        title={homePageContent.featuredProperties.title}
+        description={homePageContent.featuredProperties.description}
+        className="bg-surface-muted"
+      >
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {featuredProperties.map((property) => (
+            <PropertyCard key={property.id} property={property} />
+          ))}
+        </div>
+      </SectionContainer>
+
+      {/* CTA band */}
+      <SectionContainer dark narrow>
+        <div className="text-center">
+          <h2 className="text-balance text-3xl font-bold text-white sm:text-4xl">
+            {homePageContent.ctaBand.title}
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-white/60">
+            {homePageContent.ctaBand.description}
+          </p>
+          <Button variant="primaryDark" href={homePageContent.ctaBand.ctaHref} className="mt-8">
+            {homePageContent.ctaBand.ctaLabel}
+          </Button>
+        </div>
+      </SectionContainer>
+    </>
   );
 }

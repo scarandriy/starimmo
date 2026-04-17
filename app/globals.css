@@ -1,26 +1,155 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--theme-color-background);
+  --color-foreground: var(--theme-color-foreground);
+  --color-surface: var(--theme-color-surface);
+  --color-surface-muted: var(--theme-color-surface-muted);
+  --color-border: var(--theme-color-border);
+  --color-primary: var(--theme-color-primary);
+  --color-primary-foreground: var(--theme-color-primary-foreground);
+  --color-secondary: var(--theme-color-secondary);
+  --color-secondary-foreground: var(--theme-color-secondary-foreground);
+  --color-accent: var(--theme-color-accent);
+  --color-accent-foreground: var(--theme-color-accent-foreground);
+  --color-muted: var(--theme-color-muted);
+  --color-muted-foreground: var(--theme-color-muted-foreground);
+  --color-success: var(--theme-color-success);
+  --color-warning: var(--theme-color-warning);
+  --color-danger: var(--theme-color-danger);
+  --color-ring: var(--theme-color-ring);
+  --color-dark: var(--theme-color-dark);
+  --color-dark-foreground: var(--theme-color-dark-foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  background: var(--theme-color-background);
+  color: var(--theme-color-foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: var(--theme-color-primary);
+  color: var(--theme-color-primary-foreground);
+}
+
+:focus-visible {
+  outline: 2px solid var(--theme-color-ring);
+  outline-offset: 2px;
+}
+
+.section-space {
+  padding-block: var(--theme-layout-section-space);
+}
+
+.section-space-compact {
+  padding-block: var(--theme-layout-section-space-compact);
+}
+
+.section-dark {
+  background: var(--theme-color-dark);
+  color: var(--theme-color-dark-foreground);
+}
+
+.hero-frame {
+  padding-top: var(--theme-layout-hero-frame-space);
+}
+
+.hero-frame-desktop {
+  width: 100%;
+}
+
+.hero-overlay {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.35) 50%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  pointer-events: none;
+}
+
+.divider {
+  height: 1px;
+  background: var(--theme-color-border);
+  border: none;
+}
+
+.divider-dark {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+}
+
+.partners-marquee {
+  position: relative;
+  overflow: hidden;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
+}
+
+.partners-track {
+  display: flex;
+  width: max-content;
+  gap: 1rem;
+  animation: partners-marquee 26s linear infinite;
+}
+
+@keyframes partners-marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(-50% - 0.5rem));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .partners-track {
+    animation: none;
+  }
+}
+
+@media (width >= 64rem) {
+  .hero-frame-desktop {
+    max-width: var(--theme-layout-content-max);
+    margin-inline: auto;
+    padding-inline: 2rem;
+    padding-top: var(--theme-layout-hero-frame-space);
+  }
 }
