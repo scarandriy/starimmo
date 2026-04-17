@@ -51,8 +51,8 @@ export function SectionContainer({
             {eyebrow && (
               <p
                 className={cn(
-                  "text-xs font-semibold tracking-[0.15em] uppercase",
-                  dark ? "opacity-50" : "text-muted-foreground",
+                  "text-[11px] font-semibold tracking-[0.18em] uppercase",
+                  dark ? "text-white/40" : "text-muted-foreground",
                 )}
               >
                 {eyebrow}
@@ -61,7 +61,7 @@ export function SectionContainer({
             {title && (
               <h2
                 className={cn(
-                  "mt-3 text-balance text-3xl font-bold sm:text-4xl",
+                  "mt-4 text-balance text-4xl font-bold sm:text-5xl",
                   dark ? "text-white" : "text-foreground",
                 )}
               >
@@ -71,8 +71,8 @@ export function SectionContainer({
             {description && (
               <p
                 className={cn(
-                  "mt-4 max-w-2xl text-base leading-7 sm:text-lg",
-                  dark ? "opacity-60" : "text-muted-foreground",
+                  "mt-5 max-w-2xl text-base leading-7 sm:text-lg",
+                  dark ? "text-white/55" : "text-muted-foreground",
                 )}
               >
                 {description}
@@ -81,7 +81,7 @@ export function SectionContainer({
           </header>
         )}
         {children ? (
-          <div className={cn(hasHeader ? "mt-6 sm:mt-10" : "", "w-full")}>
+          <div className={cn(hasHeader ? "mt-10 sm:mt-14" : "", "w-full")}>
             {children}
           </div>
         ) : null}

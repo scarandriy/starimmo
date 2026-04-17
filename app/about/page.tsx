@@ -17,6 +17,7 @@ export default function AboutPage() {
       {/* Dark hero */}
       <SectionContainer
         dark
+        spacing="compact"
         eyebrow={aboutPageContent.eyebrow}
         title={aboutPageContent.title}
         description={aboutPageContent.description}
@@ -90,7 +91,7 @@ export default function AboutPage() {
       {/* Quote (dark section) */}
       <SectionContainer dark narrow>
         <div className="text-center">
-          <blockquote className="text-2xl font-bold leading-snug text-white sm:text-3xl">
+          <blockquote className="text-3xl font-bold leading-snug text-white sm:text-4xl">
             &ldquo;{aboutPageContent.quote.text}&rdquo;
           </blockquote>
           <p className="mt-6 text-sm text-white/50">

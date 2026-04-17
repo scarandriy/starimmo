@@ -4,7 +4,7 @@ import { routes } from "@/config/site";
 
 export default function NotFound() {
   return (
-    <SectionContainer narrow>
+    <SectionContainer narrow className="flex min-h-[60vh] items-center">
       <div className="text-center">
         <p className="text-[11px] font-semibold tracking-[0.15em] text-muted-foreground uppercase">
           404

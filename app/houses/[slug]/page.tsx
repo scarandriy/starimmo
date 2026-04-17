@@ -57,7 +57,7 @@ export default async function HouseDetailPage({ params }: HousePageProps) {
       <PageHero
         imageSrc={house.coverImage.src}
         imageAlt={house.coverImage.alt}
-        className="flex min-h-[55vh] items-end"
+        className="flex min-h-[72vh] items-end"
       >
         <ContentContainer className="pb-12">
           <div className="flex flex-wrap items-center gap-3">

@@ -88,6 +88,7 @@ Page section system:
 
 - Standard content sections must use `SectionContainer`.
 - Compact stripes, stats bands, and similar add-on blocks should use `SectionContainer` with an explicit spacing variant such as `spacing="compact"`.
+- Sections that must sit flush against adjacent elements with no vertical padding should use `spacing="flush"`.
 - Width-only alignment without vertical rhythm should use `ContentContainer`.
 - Image-led page heroes should use `PageHero` instead of repeating `hero-overlay`, `max-w`, and padding wrappers in route files.
 - Prefer named layout variants like `width`, `spacing`, and `dark` over one-off `py-*`, `pt-*`, and duplicated `max-w-(--theme-layout-content-max)` classes.

@@ -174,7 +174,7 @@ type CardProps = {
 
 export function Card({ title, children, className }: CardProps) {
   return (
-    <section className={cn("rounded-3xl border border-border bg-surface p-6", className)}>
+    <section className={cn("rounded-[var(--theme-radius-card)] border border-border bg-surface p-6", className)}>
       <h3 className="font-display text-2xl text-foreground">{title}</h3>
       <div className="mt-4 text-sm text-muted-foreground">{children}</div>
     </section>

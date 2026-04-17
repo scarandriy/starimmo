@@ -9,10 +9,10 @@ type GalleryCarouselProps = {
 
 export function GalleryCarousel({ images, className }: GalleryCarouselProps) {
   return (
-    <div className={cn("grid gap-2 md:grid-cols-2 lg:grid-cols-3", className)}>
+    <div className={cn("grid gap-3 md:grid-cols-2 lg:grid-cols-3", className)}>
       {images.map((image, index) => (
         <figure
-          key={`${image.src}-${index}`}
+          key={`${index}-${image.src}`}
           className={cn(
             "group relative overflow-hidden bg-surface-muted",
             index === 0 ? "md:col-span-2 md:row-span-2" : "",
@@ -27,7 +27,7 @@ export function GalleryCarousel({ images, className }: GalleryCarouselProps) {
               src={image.src}
               alt={image.alt}
               fill
-              className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+              className="object-cover transition-transform duration-500 group-hover:scale-[1.06]"
               priority={index === 0}
               sizes={
                 index === 0

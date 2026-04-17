@@ -16,37 +16,37 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
     <Link
       href={routes.project(project.slug)}
       className={cn(
-        "group flex h-full flex-col overflow-hidden rounded-(--theme-radius-card) border border-border bg-surface transition-shadow duration-300 hover:shadow-lg",
+        "group flex h-full flex-col overflow-hidden border border-border bg-surface transition-all duration-200 hover:border-foreground/60 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2",
         className,
       )}
     >
-      <div className="relative aspect-16/10 overflow-hidden bg-surface-muted">
+      <div className="relative aspect-[16/10] overflow-hidden bg-surface-muted">
         <Image
           src={project.coverImage.src}
           alt={project.coverImage.alt}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+          className="object-cover transition-transform duration-700 group-hover:scale-[1.06]"
           sizes="(min-width: 1024px) 50vw, 100vw"
         />
         <div className="absolute top-3 right-3">
           <StatusBadge label={getProjectStatusLabel(project)} />
         </div>
       </div>
-      <div className="flex flex-1 flex-col p-5">
-        <p className="text-[11px] font-semibold tracking-[0.15em] text-muted-foreground uppercase">
+      <div className="flex flex-1 flex-col p-6">
+        <p className="text-[11px] font-semibold tracking-[0.18em] text-muted-foreground uppercase">
           {project.city} &middot; {project.projectStats.deliveryLabel}
         </p>
-        <h3 className="mt-2 text-xl font-bold text-foreground">
+        <h3 className="mt-2 text-lg font-bold text-foreground sm:text-xl">
           {project.title}
         </h3>
-        <p className="mt-2 text-sm leading-6 text-muted-foreground">
+        <p className="mt-3 text-sm leading-6 text-muted-foreground line-clamp-3">
           {project.description}
         </p>
-        <div className="mt-4 flex items-center gap-4 border-t border-border pt-4 text-xs text-muted-foreground">
+        <div className="mt-auto flex items-center gap-4 border-t border-border pt-4 text-[11px] text-muted-foreground">
           <span>{project.projectStats.residences} residences</span>
-          <span>&middot;</span>
+          <span aria-hidden="true">&middot;</span>
           <span>{project.flats.length} flats</span>
-          <span>&middot;</span>
+          <span aria-hidden="true">&middot;</span>
           <span>Energy {project.energyClass}</span>
         </div>
       </div>

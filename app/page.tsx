@@ -28,10 +28,10 @@ export default function HomePage() {
         imageSrc="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2000&q=80"
         imageAlt="Modern luxury residence interior"
         className="min-h-[85vh]"
-        contentClassName="flex min-h-[85vh] flex-col justify-end pl-12"
+        contentClassName="flex min-h-[85vh] flex-col justify-end pl-5 sm:pl-8 lg:pl-12"
       >
         <div>
-          <h1 className="max-w-2xl whitespace-pre-line text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+          <h1 className="max-w-2xl whitespace-pre-line text-4xl font-bold text-white sm:text-5xl lg:text-6xl xl:text-7xl">
             {homePageContent.hero.title}
           </h1>
         </div>
@@ -71,7 +71,7 @@ export default function HomePage() {
       </PageHero>
 
       {/* Partner strip */}
-      <SectionContainer spacing="flush" className="bg-white" contentClassName="py-6 sm:py-8">
+      <SectionContainer spacing="flush" className="bg-surface-muted" contentClassName="py-6 sm:py-8">
         <div className="flex flex-col gap-4">
           <p className="text-[11px] font-semibold tracking-[0.15em] text-muted-foreground uppercase">
             Partners
@@ -82,7 +82,7 @@ export default function HomePage() {
               {partnerLogos.map((partner, index) => (
                 <div
                   key={`${partner.mark}-${index}`}
-                  className="flex min-w-48 items-center gap-4 bg-white px-5 py-4"
+                  className="flex min-w-48 items-center gap-4 bg-surface-muted px-5 py-4"
                   aria-hidden={index >= homePagePartners.length}
                 >
                   <span className="text-lg font-bold tracking-[-0.03em] text-foreground">
@@ -131,7 +131,7 @@ export default function HomePage() {
       {/* CTA band */}
       <SectionContainer dark narrow>
         <div className="text-center">
-          <h2 className="text-balance text-3xl font-bold text-white sm:text-4xl">
+          <h2 className="text-balance text-4xl font-bold text-white sm:text-5xl">
             {homePageContent.ctaBand.title}
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-white/60">

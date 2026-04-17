@@ -69,27 +69,6 @@ export default async function FlatDetailPage({ params }: FlatPageProps) {
     : flat.galleryImages;
   const editorialImage =
     flat.planImage ?? flat.galleryImages[1] ?? flat.galleryImages[0] ?? flat.coverImage;
-  const planImage = flat.planImage ?? editorialImage;
-  // Derive proportional room dimensions from the flat's total surface
-  const livingM2 = Math.round(flat.surfaceM2 * 0.28);
-  const kitchenM2 = Math.round(flat.surfaceM2 * 0.12);
-  const bathroomM2 = Math.round(flat.surfaceM2 * 0.07);
-  const bedroomM2 = Math.round(
-    (flat.surfaceM2 - livingM2 - kitchenM2 - flat.bathrooms * bathroomM2) /
-      Math.max(flat.bedrooms, 1),
-  );
-  const roomDimensions: { room: string; m2: number }[] = [
-    { room: "Living room", m2: livingM2 },
-    { room: "Kitchen", m2: kitchenM2 },
-    ...Array.from({ length: flat.bedrooms }, (_, i) => ({
-      room: flat.bedrooms === 1 ? "Bedroom" : `Bedroom ${i + 1}`,
-      m2: bedroomM2,
-    })),
-    ...Array.from({ length: flat.bathrooms }, (_, i) => ({
-      room: flat.bathrooms === 1 ? "Bathroom" : `Bathroom ${i + 1}`,
-      m2: bathroomM2,
-    })),
-  ];
 
   const editorialFacts = [
     { label: "Bedrooms", value: String(flat.bedrooms), icon: BedDouble },
@@ -300,13 +279,9 @@ export default async function FlatDetailPage({ params }: FlatPageProps) {
             </div>
 
             <div>
-              <div className="flex gap-5 pb-4 text-[10px] font-semibold tracking-[0.14em] text-white/45 uppercase">
-                <span className="border-b-2 border-white pb-2 text-white">
-                  Interior details
-                </span>
-                <span className="pb-2">Exterior details</span>
-                <span className="pb-2">Room dimensions</span>
-              </div>
+              <p className="pb-4 text-[11px] font-semibold tracking-[0.18em] text-white/50 uppercase">
+                Interior details
+              </p>
 
               <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
                 <div>
@@ -347,63 +322,32 @@ export default async function FlatDetailPage({ params }: FlatPageProps) {
         </div>
       </SectionContainer>
 
-      {/* Plan and Room Dimensions */}
-      <SectionContainer>
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16">
-          {/* Left – plan image */}
-          <div className="relative hidden aspect-4/3 w-full overflow-hidden bg-surface-muted lg:block">
-            <Image
-              src={planImage.src}
-              alt={planImage.alt}
-              fill
-              className="object-cover"
-            />
-          </div>
-
-          {/* Right – dimensions */}
-          <div className="flex flex-col justify-center">
-            <h2 className="text-3xl font-bold text-foreground sm:text-4xl lg:text-5xl">
-              Plan and Room Dimensions
-            </h2>
-
-            {/* Floor tab */}
-            <div className="mt-6 flex gap-6 sm:mt-8">
-              <span className="border-b-2 border-foreground pb-2 text-[11px] font-semibold tracking-[0.15em] text-foreground uppercase">
-                Floor {flat.floor}
-              </span>
-            </div>
-
-            <p className="mt-6 max-w-md text-sm leading-7 text-muted-foreground">
-              {flat.description}
-            </p>
-
-            <div className="relative mt-8 aspect-4/3 w-full overflow-hidden bg-surface-muted lg:hidden">
+      {/* Plan image — shown only when planImage is explicitly provided */}
+      {flat.planImage && (
+        <SectionContainer>
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16">
+            <div className="relative aspect-4/3 w-full overflow-hidden bg-surface-muted">
               <Image
-                src={planImage.src}
-                alt={planImage.alt}
+                src={flat.planImage.src}
+                alt={flat.planImage.alt}
                 fill
                 className="object-cover"
               />
             </div>
-
-            {/* Dotted room list */}
-            <ul className="mt-8 max-w-md ">
-              {roomDimensions.map((item) => (
-                <li
-                  key={item.room}
-                  className="flex items-baseline gap-2 py-4"
-                >
-                  <span className="text-sm text-foreground">{item.room}</span>
-                  <span className="flex-1 border-b border-black border-dashed " />
-                  <span className="text-sm font-bold text-foreground whitespace-nowrap">
-                    {item.m2} m²
-                  </span>
-                </li>
-              ))}
-            </ul>
+            <div className="flex flex-col justify-center">
+              <p className="text-[11px] font-semibold tracking-[0.18em] text-muted-foreground uppercase">
+                Floor {flat.floor}
+              </p>
+              <h2 className="mt-3 text-3xl font-bold text-foreground sm:text-4xl">
+                Floor plan
+              </h2>
+              <p className="mt-4 max-w-md text-sm leading-7 text-muted-foreground">
+                {flat.description}
+              </p>
+            </div>
           </div>
-        </div>
-      </SectionContainer>
+        </SectionContainer>
+      )}
 
       {/* Gallery */}
       <SectionContainer className="bg-surface-muted">

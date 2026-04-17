@@ -23,9 +23,9 @@ export const theme = {
     darkForeground: "#ffffff",
   },
   radii: {
-    card: "0 rem",
-    button: "0 rem",
-    input: "0 rem",
+    card: "0rem",
+    button: "0rem",
+    input: "0rem",
   },
   shadows: {
     nav: "0 1px 3px 0 rgba(0, 0, 0, 0.1)",

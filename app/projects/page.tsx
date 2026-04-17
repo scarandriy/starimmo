@@ -18,6 +18,7 @@ export default function ProjectsPage() {
     <>
       <SectionContainer
         dark
+        spacing="compact"
         eyebrow="Our portfolio"
         title="Residential developments"
         description="Explore our current projects across Luxembourg's most sought-after locations."

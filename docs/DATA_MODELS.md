@@ -16,7 +16,7 @@ Future documentation may add `AdminUser`, `StaticPageContent`, and CRM-specific 
 ```text
 Project 1 --- * Flat
 House   1 --- 0 Flat
-ContactRequest references a Project, Flat, or House by type and id
+ContactRequest references a Flat or House only (not a Project)
 ```
 
 Rules:
@@ -24,13 +24,13 @@ Rules:
 - A `Project` can contain many `Flat` records.
 - A `Flat` must reference exactly one `Project`.
 - A `House` is standalone and has no parent project.
-- A `ContactRequest` stores the property type and property id so the future CRM can resolve context.
+- A `ContactRequest` stores the property type (`"flat"` or `"house"`) and property id so the future CRM can resolve context. `ContactRequest.propertyType` is typed as `Exclude<PropertyType, "project">`, so Projects cannot be directly referenced by a contact request.
 
 ## 3. Shared Concepts
 
 ### Listing Status
 
-Suggested values:
+Values (`ListingStatus`):
 
 - `available`
 - `reserved`
@@ -39,7 +39,7 @@ Suggested values:
 
 ### Energy Class
 
-Suggested values:
+Values (`EnergyClass`):
 
 - `A+`
 - `A`
@@ -48,23 +48,70 @@ Suggested values:
 - `D`
 - `E`
 
+### ListingImage
+
+```ts
+type ListingImage = {
+  src: string;
+  alt: string;
+};
+```
+
+Used wherever a single image reference is stored (cover images, plan images, gallery arrays).
+
+### ConstructionStatus
+
+```ts
+type ConstructionStatus = "planning" | "launching" | "in-progress" | "completed";
+```
+
 ### Property Feature System
 
 All property types may expose structured features.
+
+`PropertyFeatureKey` is a controlled union of exactly 18 string literals — not a free-form string:
+
+```ts
+type PropertyFeatureKey =
+  | "parking"
+  | "terrace"
+  | "balcony"
+  | "energy-class"
+  | "heating-type"
+  | "elevator"
+  | "garage"
+  | "garden"
+  | "private-cellar"
+  | "bike-storage"
+  | "underfloor-heating"
+  | "triple-glazing"
+  | "home-office"
+  | "south-facing"
+  | "solar-panels"
+  | "family-layout"
+  | "landscaped-courtyard"
+  | "charging-point";
+```
+
+`PropertyFeatureCategory` values:
+
+```ts
+type PropertyFeatureCategory =
+  | "layout"
+  | "comfort"
+  | "outdoor"
+  | "mobility"
+  | "building"
+  | "efficiency";
+```
 
 Feature shape:
 
 ```ts
 type PropertyFeature = {
-  key: string;
+  key: PropertyFeatureKey;
   label: string;
-  category:
-    | "layout"
-    | "comfort"
-    | "outdoor"
-    | "mobility"
-    | "building"
-    | "efficiency";
+  category: PropertyFeatureCategory;
   value: string;
   highlight?: boolean;
 };
@@ -83,21 +130,36 @@ Required fields:
 - `city`
 - `address`
 - `postcode`
-- `constructionStatus`
+- `constructionStatus` (`ConstructionStatus`)
 - `energyClass`
 - `developer`
 - `latitude`
 - `longitude`
-- `coverImage`
-- `galleryImages`
+- `coverImage` (`ListingImage`)
+- `galleryImages` (`ListingImage[]`)
+- `features` (`PropertyFeature[]`)
+- `seoDescription`
+- `projectStats` (`{ residences: number; availabilityLabel: string; deliveryLabel: string }`)
+- `flats` (`ProjectFlatSummary[]`)
 - `createdAt`
 - `updatedAt`
 
-Recommended additions for the public site:
+### ProjectFlatSummary
 
-- `seoDescription`
-- `projectStats`
-- `features`
+A lightweight flat reference embedded in a Project for use in listing overviews:
+
+```ts
+type ProjectFlatSummary = {
+  id: string;
+  slug: string;
+  title: string;
+  price: number;
+  surfaceM2: number;
+  rooms: number;
+  bedrooms: number;
+  availabilityStatus: ListingStatus;
+};
+```
 
 Relationship:
 
@@ -109,9 +171,14 @@ Required fields:
 
 - `id`
 - `projectId`
+- `projectSlug`
+- `projectTitle`
 - `title`
 - `slug`
 - `description`
+- `city`
+- `address`
+- `postcode`
 - `price`
 - `surfaceM2`
 - `rooms`
@@ -123,20 +190,15 @@ Required fields:
 - `terrace`
 - `availabilityStatus`
 - `energyClass`
-- `planImage`
-- `galleryImages`
+- `galleryImages` (`ListingImage[]`)
+- `features` (`PropertyFeature[]`)
+- `seoDescription`
 - `createdAt`
 - `updatedAt`
 
-Recommended additions:
+Optional fields:
 
-- `projectSlug`
-- `projectTitle`
-- `city`
-- `address`
-- `postcode`
-- `features`
-- `seoDescription`
+- `planImage?: ListingImage`
 
 Relationship:
 
@@ -150,35 +212,32 @@ Required fields:
 - `title`
 - `slug`
 - `description`
+- `city`
+- `address`
+- `postcode`
 - `price`
 - `surfaceM2`
 - `landSurfaceM2`
 - `rooms`
 - `bedrooms`
 - `bathrooms`
-- `city`
-- `address`
-- `postcode`
 - `garage`
 - `garden`
 - `parking`
+- `availabilityStatus`
 - `energyClass`
-- `galleryImages`
+- `galleryImages` (`ListingImage[]`)
+- `features` (`PropertyFeature[]`)
+- `seoDescription`
 - `createdAt`
 - `updatedAt`
-
-Recommended additions:
-
-- `availabilityStatus`
-- `features`
-- `seoDescription`
 
 ## 7. ContactRequest
 
 Required fields:
 
 - `id`
-- `propertyType`
+- `propertyType` (`Exclude<PropertyType, "project">` — only `"flat"` or `"house"`; Projects cannot be referenced)
 - `propertyId`
 - `name`
 - `email`

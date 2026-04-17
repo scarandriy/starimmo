@@ -12,28 +12,33 @@ type PropertyFactsGridProps = {
 
 export function PropertyFactsGrid({ facts, dark = false }: PropertyFactsGridProps) {
   return (
-    <dl className="grid gap-px sm:grid-cols-2 xl:grid-cols-3">
-      {facts.map((fact) => (
+    <dl
+      className={cn(
+        "grid sm:grid-cols-2 lg:grid-cols-3",
+        dark ? "bg-white/5" : "bg-border",
+        "gap-px",
+      )}
+    >
+      {facts.map((fact, index) => (
         <div
           key={fact.label}
           className={cn(
-            "border-b p-5",
-            dark
-              ? "border-white/10"
-              : "border-border",
+            "p-5",
+            dark ? "bg-dark" : "bg-surface",
           )}
         >
           <dt
             className={cn(
-              "text-[11px] font-semibold tracking-[0.15em] uppercase",
-              dark ? "opacity-50" : "text-muted-foreground",
+              "text-[11px] font-semibold tracking-[0.18em] uppercase",
+              dark ? "text-white/50" : "text-muted-foreground",
             )}
           >
             {fact.label}
           </dt>
           <dd
             className={cn(
-              "mt-2 text-lg font-bold",
+              "mt-2 font-bold",
+              index === 0 ? "text-xl" : "text-base",
               dark ? "text-white" : "text-foreground",
             )}
           >

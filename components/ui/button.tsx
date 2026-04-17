@@ -63,7 +63,7 @@ export function Button({
   const v = variantStyles[variant];
 
   const classes = cn(
-    "inline-flex items-center justify-center rounded-[var(--theme-radius-button)] transition-opacity hover:opacity-85",
+    "inline-flex items-center justify-center rounded-[var(--theme-radius-button)] transition-all duration-200 hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2",
     sizeStyles[size],
     v.className,
     fullWidth && "w-full",
